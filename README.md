@@ -19,11 +19,8 @@ AIPO artifact/
 * `functions/`: Folder containing helper and core function implementations.  
 * `datasets/`: Folder containing the road-map datasets.  
 * `intermediate/`: Folder containing intermediate results (utility loss matrices) that are expensive to recompute.
-* `results/`:  Forder containing the experimental results: 
-  * `./results/1norm_appendix/`: Output of `main_1norm.m`, including utility loss, mDP violation ratio, PPR, and runtime of all compared methods across the three datasets.
-  * `./results/2norm/`: Output of `main_2norm.m`, including utility loss, mDP violation ratio, PPR, and runtime of all compared methods across the three datasets.
-  * `./results/granularity_appendix/`: Output of `main_granularity.m`, including utility loss, runtime, and the number of anchors used in AIPO.
-  * `./results/ablation_budget_appendix/`: Output of `main_ablation_budget_appendix.m`, including the utility loss of AIPO with and without privacy budget optimization.
+* `results/`:  Forder containing the experimental results. 
+
 
 ### Security/Privacy Issues and Ethical Concerns
 There are no security or ethical concerns.
@@ -49,16 +46,13 @@ The code was developed and tested using **MATLAB R2024b** with the **Optimizatio
 
 ### Experiments 
 
-The file **`main_2norm.m`** provides entry points for running experiments on different datasets.  
-To select a dataset, **uncomment the corresponding line**:
-
-```matlab
-% run_artifact_rome;               % Rome dataset (uniform vehicle distribution)
-% run_artifact_nyc;                % New York City dataset (uniform vehicle distribution)
-% run_artifact_london;             % London dataset (uniform vehicle distribution)
-% run_artifact_real_distribution;  % Rome dataset (real vehicle distribution)
-```
-The estimated running time for each **`run_artifact_rome.m`**, **`run_artifact_nyc.m`**, **`run_artifact_london.m`**, and **`run_artifact_real_distribution.m`** is approximated one hour. 
+* First, set the working directory in MATLAB to the root folder containing the provided scripts.
+* Run the desired script (e.g., main_2norm.m) to generate the corresponding tables and figures.
+* Output files (e.g., mDP violation ratio, utiliy loss, and runtime of different methods) will be saved in the following directories:
+ * `./results/1norm_appendix/`: Output of `main_1norm.m`, including utility loss, mDP violation ratio, PPR, and runtime of all compared methods across the three datasets.
+ * `./results/2norm/`: Output of `main_2norm.m`, including utility loss, mDP violation ratio, PPR, and runtime of all compared methods across the three datasets.
+ * `./results/granularity_appendix/`: Output of `main_granularity.m`, including utility loss, runtime, and the number of anchors used in AIPO.
+ * `./results/ablation_budget_appendix/`: Output of `main_ablation_budget_appendix.m`, including the utility loss of AIPO with and without privacy budget optimization.
 
 **Configuring Repeats**: You can specify the number of experiment repetitions by setting the corresponding repeat parameter in **`main.m`**: 
 
@@ -147,6 +141,7 @@ An example table produced by running **`main_2norm.m`** is shown below, which su
 | COPT   | 157.373±0.000 | 157.770±0.000 | 170.102±0.000 | 157.598±0.000 | 159.141±0.000 | 164.475±0.000 | 158.304±0.000 | 178.042±0.000 |
 | LP     | 266.852±0.000 | 53.865±0.000  | 889.372±0.000 | 266.866±0.000 | 253.014±0.000 | 176.692±0.000 | 185.082±0.000 | 154.150±0.000 |
 | AIPO*  | 18.083±0.000  | 18.153±0.000  | 18.337±0.000  | 15.869±0.000  | 15.817±0.000  | 15.718±0.000  | 14.780±0.000  | 16.750±0.000  |
+
 
 
 
