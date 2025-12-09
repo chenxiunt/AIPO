@@ -8,14 +8,18 @@ This repository contains the source code related to the methodologies and experi
 
 The file **`main_2norm.m`** implements the **AIPO** algorithm (*Anchor-Interpolated Privacy Optimization*) proposed in the paper. 
 ### Directory Structure
-PAnDA artifact/
+AIPO artifact/
 * README.md 
 
-* paper.pdf 
+* paper.pdf
 
-* main.m 
+* main_2norm.m 
 
-* main_appendix.m 
+* main_1norm_appendix.m
+
+* main_ablation_budget_appendix.m
+
+* main_granularity_appendix
 
 * parameters.m 
 
@@ -137,6 +141,7 @@ This result support **Main result 1 (displayed in Table 2 and Table 3 in the pap
 We would like to clarify that the exact computation times are **hard to reproduce** because they depend on factors beyond our control, such as hardware configuration, concurrent system load, operating system scheduling, library implementations, and randomness in the algorithm. As a result, while the relative trends (e.g., scalability across datasets and methods) are consistent and reproducible, the absolute runtime values may vary across environments. 
 
 For instance, relative to EM+BR, our PAnDA variants (PAnDA-e/p/I) are competitive and, for larger k, can be faster; the crossover depends on problem size, environment, and random seed. While PAnDA runtimes are generally <1 s, given certain random seeds we occasionally see slow LP convergence that produces ~12 s outliers, which can raise the average in some runs.
+
 
 
 
