@@ -136,17 +136,10 @@ an example table:
 
 
 
-The exact utility loss values are **hard to reproduce**, since both location set and users are randomly distributed, leading to variation across runs. However, the overall trend remains consistent: *PAnDA-e, PAnDA-p, and PAnDA-l achieve lower utility loss compared to EM, LP+CA, and EM+BR*, as reported in the paper.
 
+#### Computation time (displayed in Table 4)
 
-
-
-
-This result support **Main result 1 (displayed in Table 2 and Table 3 in the paper)**: *"PAnDA-e, PAnDA-p, and PAnDA-l have higher computational time compared to EM and EM+BR, it outperforms optimization-based methods including LP, LP+CA, LP+BD, and LP+EM in terms of computation efficiency"*. 
-
-We would like to clarify that the exact computation times are **hard to reproduce** because they depend on factors beyond our control, such as hardware configuration, concurrent system load, operating system scheduling, library implementations, and randomness in the algorithm. As a result, while the relative trends (e.g., scalability across datasets and methods) are consistent and reproducible, the absolute runtime values may vary across environments. 
-
-For instance, relative to EM+BR, our PAnDA variants (PAnDA-e/p/I) are competitive and, for larger k, can be faster; the crossover depends on problem size, environment, and random seed. While PAnDA runtimes are generally <1 s, given certain random seeds we occasionally see slow LP convergence that produces ~12 s outliers, which can raise the average in some runs.
+We would like to clarify that the exact computation times are **hard to reproduce** because they depend on factors beyond our control, such as hardware configuration, concurrent system load, operating system scheduling, library implementations, and randomness in the algorithm. As a result, while the relative computation time between COPT, LP, and AIPO (LP > COPT > AIPO) are consistent and reproducible, the absolute runtime values may vary across environments. 
 
 
 
