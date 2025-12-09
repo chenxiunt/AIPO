@@ -88,9 +88,9 @@ An example table produced by running **`main_2norm.m`** is shown below, which su
 
 
 #### Main Result 2: Utility loss (displayed in Table 3)
-***Key observations***: Compared to pre-defined noise distributions (EM, Laplace, TEM), AIPO reduces utility loss by roughly 60% on average. Relative to hybrid methods, AIPO attains sinificantly lower average utility loss than COPT and around 10% lower loss than RMP. 
+***Key observations***: Compared to `pre-defined noise distributions (EM, Laplace, TEM)`, `AIPO` reduces utility loss by roughly 60% on average. Relative to hybrid methods, `AIPO` attains sinificantly lower average utility loss than `COPT` and around 10% lower loss than `RMP`. 
 
-Compared to LP, AIPO trades some utility for stronger guarantees: LP can achieve lower loss by optimizing directly over distance-based constraints, but it enforces mDP only on a discrete grid and may violate mDP off-grid in the continuous domain. Relative to the universal lower bound (LB) from **Proposition 5**, AIPO’s empirical utility is typically within about 1.5–3× of the optimum across datasets and budgets, with larger gaps under tighter privacy (smaller \(\epsilon\)). Finally, AIPO incurs somewhat higher utility loss than AIPO-R, which relaxes mDP and therefore cannot guarantee mDP over the full continuous space.
+Compared to `LP`, `AIPO` trades some utility for stronger guarantees: `LP` can achieve lower loss by optimizing directly over distance-based constraints, but it enforces mDP only on a discrete grid and may violate mDP off-grid in the continuous domain. Relative to the `universal lower bound (LB)` from **Proposition 5**, `AIPO`’s empirical utility is typically within about 1.5–3× of the optimum across datasets and budgets, with larger gaps under tighter privacy (smaller ε). Finally, `AIPO` incurs somewhat higher utility loss than `AIPO-R`, which relaxes mDP and therefore cannot guarantee mDP over the full continuous space.
 
 
 
@@ -129,6 +129,7 @@ An example table produced by running **`main_2norm.m`** is shown below, which su
 | COPT   | 157.373±0.000 | 157.770±0.000 | 170.102±0.000 | 157.598±0.000 | 159.141±0.000 | 164.475±0.000 | 158.304±0.000 | 178.042±0.000 |
 | LP     | 266.852±0.000 | 53.865±0.000  | 889.372±0.000 | 266.866±0.000 | 253.014±0.000 | 176.692±0.000 | 185.082±0.000 | 154.150±0.000 |
 | AIPO*  | 18.083±0.000  | 18.153±0.000  | 18.337±0.000  | 15.869±0.000  | 15.817±0.000  | 15.718±0.000  | 14.780±0.000  | 16.750±0.000  |
+
 
 
 
