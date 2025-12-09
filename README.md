@@ -117,7 +117,7 @@ An example table produced by running **`main_2norm.m`** is shown below, which su
 
 #### Main Result 3: Computation time (displayed in Table 4)
 
-We would like to clarify that the exact computation times are **difficult to reproduce**, as they depend on factors beyond our control, including hardware configuration, concurrent system load, operating system scheduling, library implementations, and algorithmic randomness. As a result, while the relative ordering of runtimes for LP, COPT, and AIPO (on average LP > COPT > AIPO) is consistent and reproducible, the absolute runtime values may vary across environments.
+We would like to clarify that the exact computation times are **difficult to reproduce**, as they depend on factors beyond our control, including hardware configuration, concurrent system load, operating system scheduling, library implementations, and algorithmic randomness. As a result, while the relative ordering of runtimes for *LP*, *COPT*, and *AIPO* (on average **LP > COPT > AIPO**) is consistent and reproducible, the absolute runtime values may vary across environments.
 
 An example table produced by running **`main_2norm.m`** is shown below, which supports **Main result 3 (displayed in Table 4)**. 
 
@@ -129,6 +129,7 @@ An example table produced by running **`main_2norm.m`** is shown below, which su
 | COPT   | 157.373±0.000 | 157.770±0.000 | 170.102±0.000 | 157.598±0.000 | 159.141±0.000 | 164.475±0.000 | 158.304±0.000 | 178.042±0.000 |
 | LP     | 266.852±0.000 | 53.865±0.000  | 889.372±0.000 | 266.866±0.000 | 253.014±0.000 | 176.692±0.000 | 185.082±0.000 | 154.150±0.000 |
 | AIPO*  | 18.083±0.000  | 18.153±0.000  | 18.337±0.000  | 15.869±0.000  | 15.817±0.000  | 15.718±0.000  | 14.780±0.000  | 16.750±0.000  |
+
 
 
 
