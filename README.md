@@ -91,7 +91,7 @@ env_parameters.NR_NODE_IN_TARGET = 500;    % The number records is 500
 
 ### Main Results and Claims
 #### Main Result 1: metric differential privacy violation ratio (displayed in Table 2)
-*AIPO* attains 0% violations across all datasets and budgets, corroborating the correctness of its dimension-wise composition and log-convex interpolation. In contrast, LP and COPT exhibit nonzero violation ratios because they enforce constraints over discretized representatives, thereby approximating pairwise distances; such approximations can overestimate true continuous distances and relax the effective mDP constraints, missing privacy leakage at finer granularity. Pre-defined Noise Distribution mechanisms (e.g., Laplace, EM, TEM) do not incur violations but achieve this via heavier randomization. Complementing the aggregate ratios, the distributional analysis in Section D.1 (Fig. 8–Fig. 10) shows that AIPO’s PPR values concentrate well below ε with tight tails, whereas LPbased and hybrid methods yield broader spreads with noticeable mass near (and occasionally beyond) the threshold; these patterns are consistent in Rome, London, and NYC. The relaxed variant, AIPO-R, exhibits higher violation ratios. Unlike AIPO, it enforces mDP only between anchor points and does not guarantee compliance in interpolated regions; consequently, violations arise in areas between anchors, especially under sparse anchoring or in higher-dimensional settings. A formal discussion is provided in Appendix E.1. (described in Section **6.2**).  
+*AIPO* attains 0% violations across all datasets and budgets, corroborating the correctness of its dimension-wise composition and log-convex interpolation. In contrast, LP and COPT exhibit nonzero violation ratios because they enforce constraints over discretized representatives, thereby approximating pairwise distances; such approximations can overestimate true continuous distances and relax the effective mDP constraints, missing privacy leakage at finer granularity. Pre-defined Noise Distribution mechanisms (e.g., Laplace, EM, TEM) do not incur violations but achieve this via heavier randomization. The relaxed variant, AIPO-R, exhibits higher violation ratios. Unlike AIPO, it enforces mDP only between anchor points and does not guarantee compliance in interpolated regions; consequently, violations arise in areas between anchors, especially under sparse anchoring or in higher-dimensional settings.
 
 An example table produced by running **`main_2norm.m`** is shown below, which supports **Main result 1 (displayed in Table 2)**. 
 
@@ -151,6 +151,7 @@ An example table produced by running **`main_2norm.m`** is shown below, which su
 | COPT   | 157.373±0.000 | 157.770±0.000 | 170.102±0.000 | 157.598±0.000 | 159.141±0.000 | 164.475±0.000 | 158.304±0.000 | 178.042±0.000 |
 | LP     | 266.852±0.000 | 53.865±0.000  | 889.372±0.000 | 266.866±0.000 | 253.014±0.000 | 176.692±0.000 | 185.082±0.000 | 154.150±0.000 |
 | AIPO*  | 18.083±0.000  | 18.153±0.000  | 18.337±0.000  | 15.869±0.000  | 15.817±0.000  | 15.718±0.000  | 14.780±0.000  | 16.750±0.000  |
+
 
 
 
