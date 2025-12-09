@@ -1,4 +1,4 @@
-function x_opt = perturbation_cal_apo(c, lambda, d, neighborMatrix, epsilon1, epsilon2)
+function [x_opt, fval_inst] = perturbation_cal_apo(c, lambda, d, neighborMatrix, epsilon1, epsilon2)
     [nr_anchor, nr_perturb] = size(c); 
     for i = 1:1:nr_anchor
         for k = 1:1:nr_perturb
@@ -27,8 +27,8 @@ function x_opt = perturbation_cal_apo(c, lambda, d, neighborMatrix, epsilon1, ep
     %    min c_obj' * xVec   (plus optional constant offset c_cons)
     % subject to Aeq*xVec=beq, Aineq*xVec<=bineq, lb<=xVec<=ub
 
-    % options = optimoptions('linprog','Display','on');
-    [xVec, fval_inst, exitflag] = linprog(f, Aineq, bineq, Aeq, beq, lb, ub);
+    options = optimoptions('linprog', 'Algorithm', 'dual-simplex', 'Display', 'off');
+    [xVec, fval_inst, exitflag] = linprog(f, Aineq, bineq, Aeq, beq, lb, ub, options);
     if exitflag ~= 1
         x_opt = ones(J, K)/K; 
     else
