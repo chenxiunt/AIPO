@@ -67,7 +67,7 @@ After completion, the program saves the experimental results to the appropriate 
 
 ### Main Results and Claims
 #### Main Result 1: metric differential privacy violation ratio (displayed in Table 2)
-***Key observations***: *AIPO* and *Pre-defined Noise Distribution mechanisms (e.g., Laplace, EM, TEM)* attain **0% violations** across all datasets and budgets. In contrast, LP and COPT exhibit nonzero violation ratios. The relaxed variant, AIPO-R, exhibits higher violation ratios. 
+***Key observations***: *AIPO* and the *pre-defined noise distribution mechanisms* (Laplace, EM, TEM) achieve **0% violations** across all datasets and privacy budgets. In contrast, *LP* and *COPT* show **nonzero violation ratios**, and the relaxed variant *AIPO-R* exhibits even **higher violation ratios**.
 
 An example table produced by running **`main_2norm.m`** is shown below, which supports **Main result 1 (displayed in Table 2)**. 
 
@@ -129,6 +129,7 @@ An example table produced by running **`main_2norm.m`** is shown below, which su
 | COPT   | 157.373±0.000 | 157.770±0.000 | 170.102±0.000 | 157.598±0.000 | 159.141±0.000 | 164.475±0.000 | 158.304±0.000 | 178.042±0.000 |
 | LP     | 266.852±0.000 | 53.865±0.000  | 889.372±0.000 | 266.866±0.000 | 253.014±0.000 | 176.692±0.000 | 185.082±0.000 | 154.150±0.000 |
 | AIPO*  | 18.083±0.000  | 18.153±0.000  | 18.337±0.000  | 15.869±0.000  | 15.817±0.000  | 15.718±0.000  | 14.780±0.000  | 16.750±0.000  |
+
 
 
 
