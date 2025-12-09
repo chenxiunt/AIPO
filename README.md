@@ -137,9 +137,10 @@ an example table:
 
 
 
-#### Computation time (displayed in Table 4)
+#### Main Result 3: Computation time (displayed in Table 4)
 
 We would like to clarify that the exact computation times are **hard to reproduce** because they depend on factors beyond our control, such as hardware configuration, concurrent system load, operating system scheduling, library implementations, and randomness in the algorithm. As a result, while the relative computation time between COPT, LP, and AIPO (LP > COPT > AIPO) are consistent and reproducible, the absolute runtime values may vary across environments. 
+
 
 
 
