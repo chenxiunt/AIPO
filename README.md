@@ -9,17 +9,17 @@ This repository contains the source code related to the methodologies and experi
 The file **`main_2norm.m`** implements the **AIPO** algorithm (*Anchor-Interpolated Privacy Optimization*) proposed in the paper. 
 ### Directory Structure
 AIPO artifact/
-* README.md 
+* `README.md`: Description of the artifact, including how to reproduce the main experimental results
 
-* paper.pdf
+* `paper.pdf`: The pdf version of the paper *"Interpolation-Based Optimization for Enforcing ℓp-Norm Metric Differential Privacy in Continuous and Fine-Grained Domains"*
 
-* main_2norm.m 
+* `main_2norm.m`: Reproduces experiments under the ℓ2 utility metric, including Tables 2–4 and Figures 8-10. 
 
-* main_1norm_appendix.m
+* `main_1norm_appendix.m`: Reproduces experiments under the ℓ1 utility metric, including Tables 8–10.
+* `main_granularity_appendix.m`: Evaluates the effect of grid granularity (Fig. 14).
+* `main_ablation_budget_appendix.m`: Investigates the impact of privacy budget allocation strategies, reproducing Table 7 and Fig. 11–13.
 
-* main_ablation_budget_appendix.m
 
-* main_granularity_appendix
 
 * parameters.m 
 
@@ -153,6 +153,7 @@ An example table produced by running **`main_2norm.m`** is shown below, which su
 | COPT   | 157.373±0.000 | 157.770±0.000 | 170.102±0.000 | 157.598±0.000 | 159.141±0.000 | 164.475±0.000 | 158.304±0.000 | 178.042±0.000 |
 | LP     | 266.852±0.000 | 53.865±0.000  | 889.372±0.000 | 266.866±0.000 | 253.014±0.000 | 176.692±0.000 | 185.082±0.000 | 154.150±0.000 |
 | AIPO*  | 18.083±0.000  | 18.153±0.000  | 18.337±0.000  | 15.869±0.000  | 15.817±0.000  | 15.718±0.000  | 14.780±0.000  | 16.750±0.000  |
+
 
 
 
