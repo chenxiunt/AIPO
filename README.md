@@ -93,7 +93,7 @@ env_parameters.NR_NODE_IN_TARGET = 500;    % The number records is 500
 #### Main Result 1: metric differential privacy violation ratio (displayed in Table 2)
 *AIPO* attains 0% violations across all datasets and budgets, corroborating the correctness of its dimension-wise composition and log-convex interpolation. In contrast, LP and COPT exhibit nonzero violation ratios because they enforce constraints over discretized representatives, thereby approximating pairwise distances; such approximations can overestimate true continuous distances and relax the effective mDP constraints, missing privacy leakage at finer granularity. Pre-defined Noise Distribution mechanisms (e.g., Laplace, EM, TEM) do not incur violations but achieve this via heavier randomization. Complementing the aggregate ratios, the distributional analysis in Section D.1 (Fig. 8–Fig. 10) shows that AIPO’s PPR values concentrate well below ε with tight tails, whereas LPbased and hybrid methods yield broader spreads with noticeable mass near (and occasionally beyond) the threshold; these patterns are consistent in Rome, London, and NYC. The relaxed variant, AIPO-R, exhibits higher violation ratios. Unlike AIPO, it enforces mDP only between anchor points and does not guarantee compliance in interpolated regions; consequently, violations arise in areas between anchors, especially under sparse anchoring or in higher-dimensional settings. A formal discussion is provided in Appendix E.1. (described in Section **6.2**).  
 
-An example table: 
+An example table produced by running **`main_2norm.m`** is shown below, which supports **Main result 1 (displayed in Table 2)**. 
 
 | Method                          |ε=0.2       |ε=0.4       |ε=0.6       |ε=0.8       |ε=1.0       |ε=1.2       |ε=1.4       |ε=1.6       |
 |---------------------------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|
@@ -108,7 +108,7 @@ An example table:
 | AIPO-R                          | 8.928±0.000   | 7.399±0.000   | 4.982±0.000   | 3.352±0.000   | 2.138±0.000   | 1.288±0.000   | 0.924±0.000   | 0.597±0.000   |
 | AIPO*                           | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   |
 
-This result support **Main result 2 (displayed in Table 2)**: *PAnDA-e, PAnDA-p, and PAnDA-l achieve lower utility loss compared to EM, LP+CA, and EM+BR*. 
+
 
 
 
@@ -116,7 +116,7 @@ This result support **Main result 2 (displayed in Table 2)**: *PAnDA-e, PAnDA-p,
 Across all three datasets, AIPO consistently achieves lower utility loss than all baselines. Compared to pre-defined noise distributions (EM, Laplace, TEM), AIPO reduces utility loss by roughly 60% on average, replacing global/isotropic perturbations—which ignore geometry and direction-dependent sensitivity and thus tend to over-perturb dense regions and under-protect sparse ones—with anchor-based optimization and log-convex interpolation that align smoothly with the metric structure. Relative to hybrid methods, AIPO attains around 60% lower average utility loss than COPT, whose rigid LP formulation scales poorly in high-resolution domains, and around 10% lower loss than RMP, whose posterior reshaping remains fundamentally limited by the quality of its initial pre-defined noise. In contrast, AIPO directly optimizes perturbation probabilities under \((\epsilon, d_p)\)-mDP constraints without relying on a fixed base mechanism. Compared to LP, AIPO sacrifices some utility—LP can achieve lower loss by optimizing directly over distance-based constraints—but LP only enforces mDP on a discrete grid and can violate \((\epsilon, d_p)\)-mDP off-grid in the continuous domain. Relative to the universal lower bound (LB) from Proposition 5, AIPO’s empirical utility is typically within a
 
 
-An example table displayed after running **`main_2norm.m`**: 
+An example table produced by running **`main_2norm.m`** is shown below, which supports **Main result 2 (displayed in Table 3)**. 
 
 **rome road map**
 
@@ -141,6 +141,8 @@ An example table displayed after running **`main_2norm.m`**:
 
 We would like to clarify that the exact computation times are **difficult to reproduce**, as they depend on factors beyond our control, including hardware configuration, concurrent system load, operating system scheduling, library implementations, and algorithmic randomness. As a result, while the relative ordering of runtimes for LP, COPT, and AIPO (on average LP > COPT > AIPO) is consistent and reproducible, the absolute runtime values may vary across environments.
 
+An example table produced by running **`main_2norm.m`** is shown below, which supports **Main result 3 (displayed in Table 4)**. 
+
 
 **rome road map**
 
@@ -149,6 +151,7 @@ We would like to clarify that the exact computation times are **difficult to rep
 | COPT   | 157.373±0.000 | 157.770±0.000 | 170.102±0.000 | 157.598±0.000 | 159.141±0.000 | 164.475±0.000 | 158.304±0.000 | 178.042±0.000 |
 | LP     | 266.852±0.000 | 53.865±0.000  | 889.372±0.000 | 266.866±0.000 | 253.014±0.000 | 176.692±0.000 | 185.082±0.000 | 154.150±0.000 |
 | AIPO*  | 18.083±0.000  | 18.153±0.000  | 18.337±0.000  | 15.869±0.000  | 15.817±0.000  | 15.718±0.000  | 14.780±0.000  | 16.750±0.000  |
+
 
 
 
