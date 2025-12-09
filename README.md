@@ -95,6 +95,8 @@ env_parameters.NR_NODE_IN_TARGET = 500;    % The number records is 500
 
 An example table produced by running **`main_2norm.m`** is shown below, which supports **Main result 1 (displayed in Table 2)**. 
 
+**Rome Road Map - mDP Violation Ratio**
+
 | Method                          |ε=0.2       |ε=0.4       |ε=0.6       |ε=0.8       |ε=1.0       |ε=1.2       |ε=1.4       |ε=1.6       |
 |---------------------------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|
 | **Pre-defined Noise Distribution:** |               |               |               |               |               |               |               |               |
@@ -118,7 +120,7 @@ Across all three datasets, AIPO consistently achieves lower utility loss than al
 
 An example table produced by running **`main_2norm.m`** is shown below, which supports **Main result 2 (displayed in Table 3)**. 
 
-**rome road map**
+**Rome Road Map - Utility Loss**
 
 | Method                          | ε=0.2       |ε=0.4       |ε=0.6       |ε=0.8       |ε=1.0       |ε=1.2       |ε=1.4       |ε=1.6       |
 |---------------------------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|
@@ -144,13 +146,14 @@ We would like to clarify that the exact computation times are **difficult to rep
 An example table produced by running **`main_2norm.m`** is shown below, which supports **Main result 3 (displayed in Table 4)**. 
 
 
-**rome road map**
+**Rome Road Map - Computation Time (sec)**
 
 | Method | ε = 0.2      | ε = 0.4      | ε = 0.6      | ε = 0.8      | ε = 1.0      | ε = 1.2      | ε = 1.4      | ε = 1.6      |
 |--------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|
 | COPT   | 157.373±0.000 | 157.770±0.000 | 170.102±0.000 | 157.598±0.000 | 159.141±0.000 | 164.475±0.000 | 158.304±0.000 | 178.042±0.000 |
 | LP     | 266.852±0.000 | 53.865±0.000  | 889.372±0.000 | 266.866±0.000 | 253.014±0.000 | 176.692±0.000 | 185.082±0.000 | 154.150±0.000 |
 | AIPO*  | 18.083±0.000  | 18.153±0.000  | 18.337±0.000  | 15.869±0.000  | 15.817±0.000  | 15.718±0.000  | 14.780±0.000  | 16.750±0.000  |
+
 
 
 
