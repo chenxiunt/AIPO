@@ -52,16 +52,10 @@ The code was developed and tested using **MATLAB R2024b** with the **Optimizatio
 
 
 ## Artifact Evaluation
-### Main Results and Claims
-#### Main Result 1: Computation time (displayed in Table 2 and Table 3)
-*PAnDA-e*, *PAnDA-p*, and *PAnDA-l* have higher computational time compared to *Exponential Mechanism (EM)* and *Bayesian Remapping (EM+BR)*, it outperforms optimization-based methods including *Linear Programming (LP)*, *Coarse Approximation of LP (LP+CA)*, *Benders Decomposition (LP+BD)*, and *ConstOPTMech (LP+EM)* in terms of *computation efficiency* (described in Section **4.3.1**). 
-
-#### Main Result 2: Utility loss (displayed in Table 4 and Table 5)
-*PAnDA-e*, *PAnDA-p*, and *PAnDA-l* achieve lower *utility loss* compared to *EM*, *LP+CA*, and *EM+BR* (described in the first paragraph of **Section 4.3.2**). 
 
 ### Experiments 
 
-The file **`main.m`** provides entry points for running experiments on different datasets.  
+The file **`main_2norm.m`** provides entry points for running experiments on different datasets.  
 To select a dataset, **uncomment the corresponding line**:
 
 ```matlab
@@ -94,7 +88,34 @@ To adjust the number of  records for LP+EM or LP+BD, modify the parameter *env_p
 env_parameters.NR_NODE_IN_TARGET = 500;    % The number records is 500
 ```
 
-#### 1. Utility loss of different algorithms 
+
+### Main Results and Claims
+#### Main Result 1: metric differential privacy violation ratio (displayed in Table 2)
+*AIPO* attains 0% violations across all datasets and budgets, corroborating the correctness of its dimension-wise composition and log-convex interpolation. In contrast, LP and COPT exhibit nonzero violation ratios because they enforce constraints over discretized representatives, thereby approximating pairwise distances; such approximations can overestimate true continuous distances and relax the effective mDP constraints, missing privacy leakage at finer granularity. Pre-defined Noise Distribution mechanisms (e.g., Laplace, EM, TEM) do not incur violations but achieve this via heavier randomization. Complementing the aggregate ratios, the distributional analysis in Section D.1 (Fig. 8–Fig. 10) shows that AIPO’s PPR values concentrate well below ε with tight tails, whereas LPbased and hybrid methods yield broader spreads with noticeable mass near (and occasionally beyond) the threshold; these patterns are consistent in Rome, London, and NYC. The relaxed variant, AIPO-R, exhibits higher violation ratios. Unlike AIPO, it enforces mDP only between anchor points and does not guarantee compliance in interpolated regions; consequently, violations arise in areas between anchors, especially under sparse anchoring or in higher-dimensional settings. A formal discussion is provided in Appendix E.1. (described in Section **6.2**).  
+
+An example table: 
+
+| Method                          |ε=0.2       |ε=0.4       |ε=0.6       |ε=0.8       |ε=1.0       |ε=1.2       |ε=1.4       |ε=1.6       |
+|---------------------------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|
+| **Pre-defined Noise Distribution:** |               |               |               |               |               |               |               |               |
+| EM                              | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   |
+| Laplace                         | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   |
+| TEM                             | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   |
+| **Hybrid Method:**              |               |               |               |               |               |               |               |               |
+| RMP                             | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   |
+| COPT                            | 3.505±0.000   | 9.040±0.000   | 3.569±0.000   | 3.343±0.000   | 3.159±0.000   | 2.985±0.000   | 2.756±0.000   | 2.594±0.000   |
+| LP                              | 2.169±0.000   | 2.276±0.000   | 2.048±0.000   | 1.860±0.000   | 1.726±0.000   | 1.220±0.000   | 1.124±0.000   | 0.861±0.000   |
+| AIPO-R                          | 8.928±0.000   | 7.399±0.000   | 4.982±0.000   | 3.352±0.000   | 2.138±0.000   | 1.288±0.000   | 0.924±0.000   | 0.597±0.000   |
+| AIPO*                           | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   |
+
+This result support **Main result 2 (displayed in Table 2)**: *PAnDA-e, PAnDA-p, and PAnDA-l achieve lower utility loss compared to EM, LP+CA, and EM+BR*. 
+
+
+
+#### Main Result 2: Utility loss (displayed in Table 3)
+Across all three datasets, AIPO consistently achieves lower utility loss than all baselines. Compared to pre-defined noise distributions (EM, Laplace, TEM), AIPO reduces utility loss by roughly 60% on average, replacing global/isotropic perturbations—which ignore geometry and direction-dependent sensitivity and thus tend to over-perturb dense regions and under-protect sparse ones—with anchor-based optimization and log-convex interpolation that align smoothly with the metric structure. Relative to hybrid methods, AIPO attains around 60% lower average utility loss than COPT, whose rigid LP formulation scales poorly in high-resolution domains, and around 10% lower loss than RMP, whose posterior reshaping remains fundamentally limited by the quality of its initial pre-defined noise. In contrast, AIPO directly optimizes perturbation probabilities under \((\epsilon, d_p)\)-mDP constraints without relying on a fixed base mechanism. Compared to LP, AIPO sacrifices some utility—LP can achieve lower loss by optimizing directly over distance-based constraints—but LP only enforces mDP on a discrete grid and can violate \((\epsilon, d_p)\)-mDP off-grid in the continuous domain. Relative to the universal lower bound (LB) from Proposition 5, AIPO’s empirical utility is typically within a
+
+
 an example table: 
 
 **rome road map**
@@ -114,26 +135,11 @@ an example table:
 | AIPO*                           | 5.64±0.00   | 4.56±0.00   | 3.90±0.00   | 3.47±0.00   | 3.18±0.00   | 2.96±0.00   | 2.82±0.00   | 2.71±0.00   |
 
 
-This result support **Main result 2 (displayed in Table 4 and Table 5 in the paper)**: *PAnDA-e, PAnDA-p, and PAnDA-l achieve lower utility loss compared to EM, LP+CA, and EM+BR*. 
 
 The exact utility loss values are **hard to reproduce**, since both location set and users are randomly distributed, leading to variation across runs. However, the overall trend remains consistent: *PAnDA-e, PAnDA-p, and PAnDA-l achieve lower utility loss compared to EM, LP+CA, and EM+BR*, as reported in the paper.
 
 
-#### 2. Computation time of different algorithms 
-An example table: 
 
-| Method                          |ε=0.2       |ε=0.4       |ε=0.6       |ε=0.8       |ε=1.0       |ε=1.2       |ε=1.4       |ε=1.6       |
-|---------------------------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|
-| **Pre-defined Noise Distribution:** |               |               |               |               |               |               |               |               |
-| EM                              | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   |
-| Laplace                         | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   |
-| TEM                             | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   |
-| **Hybrid Method:**              |               |               |               |               |               |               |               |               |
-| RMP                             | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   |
-| COPT                            | 3.505±0.000   | 9.040±0.000   | 3.569±0.000   | 3.343±0.000   | 3.159±0.000   | 2.985±0.000   | 2.756±0.000   | 2.594±0.000   |
-| LP                              | 2.169±0.000   | 2.276±0.000   | 2.048±0.000   | 1.860±0.000   | 1.726±0.000   | 1.220±0.000   | 1.124±0.000   | 0.861±0.000   |
-| AIPO-R                          | 8.928±0.000   | 7.399±0.000   | 4.982±0.000   | 3.352±0.000   | 2.138±0.000   | 1.288±0.000   | 0.924±0.000   | 0.597±0.000   |
-| AIPO*                           | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   | 0.000±0.000   |
 
 
 This result support **Main result 1 (displayed in Table 2 and Table 3 in the paper)**: *"PAnDA-e, PAnDA-p, and PAnDA-l have higher computational time compared to EM and EM+BR, it outperforms optimization-based methods including LP, LP+CA, LP+BD, and LP+EM in terms of computation efficiency"*. 
@@ -141,6 +147,7 @@ This result support **Main result 1 (displayed in Table 2 and Table 3 in the pap
 We would like to clarify that the exact computation times are **hard to reproduce** because they depend on factors beyond our control, such as hardware configuration, concurrent system load, operating system scheduling, library implementations, and randomness in the algorithm. As a result, while the relative trends (e.g., scalability across datasets and methods) are consistent and reproducible, the absolute runtime values may vary across environments. 
 
 For instance, relative to EM+BR, our PAnDA variants (PAnDA-e/p/I) are competitive and, for larger k, can be faster; the crossover depends on problem size, environment, and random seed. While PAnDA runtimes are generally <1 s, given certain random seeds we occasionally see slow LP convergence that produces ~12 s outliers, which can raise the average in some runs.
+
 
 
 
