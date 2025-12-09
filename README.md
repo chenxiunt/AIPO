@@ -98,7 +98,7 @@ an example table:
 
 **rome road map**
 
-| Method                          | &epsilon=0.2       | $\epsilon=$0.4       | $\epsilon=$0.6       | $\epsilon=$0.8       | $\epsilon=$1.0       | $\epsilon=$1.2       | $\epsilon=$1.4       | $\epsilon=$1.6       |
+| Method                          | ε=0.2       | $\epsilon=$0.4       | $\epsilon=$0.6       | $\epsilon=$0.8       | $\epsilon=$1.0       | $\epsilon=$1.2       | $\epsilon=$1.4       | $\epsilon=$1.6       |
 |---------------------------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|
 | **Pre-defined Noise Distribution:** |             |             |             |             |             |             |             |             |
 | EM                              | 8.62±0.00   | 8.52±0.00   | 8.50±0.00   | 8.55±0.00   | 8.64±0.00   | 8.74±0.00   | 8.84±0.00   | 8.93±0.00   |
@@ -140,6 +140,7 @@ This result support **Main result 1 (displayed in Table 2 and Table 3 in the pap
 We would like to clarify that the exact computation times are **hard to reproduce** because they depend on factors beyond our control, such as hardware configuration, concurrent system load, operating system scheduling, library implementations, and randomness in the algorithm. As a result, while the relative trends (e.g., scalability across datasets and methods) are consistent and reproducible, the absolute runtime values may vary across environments. 
 
 For instance, relative to EM+BR, our PAnDA variants (PAnDA-e/p/I) are competitive and, for larger k, can be faster; the crossover depends on problem size, environment, and random seed. While PAnDA runtimes are generally <1 s, given certain random seeds we occasionally see slow LP convergence that produces ~12 s outliers, which can raise the average in some runs.
+
 
 
 
