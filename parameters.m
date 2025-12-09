@@ -6,7 +6,7 @@ SCALE = 2;                                                                  % SC
 NR_PER_LOC = 20;                                                            % The number of candidate perturbed locations
 SAMPLE_SIZE_PPR = 1000;                                                     % The sample size when measuring perturbation   
                                                                             % probability ratio (PPR). 
-NR_TEST = 20;                                                                % The number of repeated tests 
+NR_TEST = 1;                                                                % The number of repeated tests 
 NR_VIO_SAMPLE = 1000; 
 EPSILON = 0.4;                                                              % Default privacy budget
 
@@ -16,7 +16,7 @@ cell_size = [4.77, 6.87, 6.78];                                             % Th
                                                                             % 4.58km X 4.58km, 4.52km X 4.52km, respectively 
 
 %% Parameters for AIPO
-NR_EPSILON_INTERVAL = 10; 
+NR_EPSILON_INTERVAL = 5; 
 
 %% Parameters for COPT
 LAMBDA = 5;
@@ -24,6 +24,6 @@ R = 50;
 GRID_SIZE_COPT = 250;                                                        % Default value = 250; 
 
 %% Parameters for Linear Programming based method
-GRID_SIZE_LP = 11;                                                           % Default value = 11; 
-
+GRID_SIZE_LP = 18;                                                           % Default value = 12; 
+GRID_SIZE_LP_LB = 12; 
 

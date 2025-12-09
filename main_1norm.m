@@ -101,25 +101,31 @@ for city_idx = 1:length(city_list)
             tic 
             % First calculate the utiltiy loss matrix and distance matrix
             % between grid cells
-            [grid_utility_loss, grid_distances, grid_prior, ~, ~] = partition_grid_bound(selected_longitudes, selected_latitudes, loss_matrix_selected, prior, GRID_SIZE_LP, GRID_SIZE_LP, col_longitude(perturbed_indices), col_latitude(perturbed_indices), l_p);
+            [grid_utility_loss, grid_distances, grid_prior, ~, ~] = partition_grid_bound(selected_longitudes, selected_latitudes, loss_matrix_selected, prior, GRID_SIZE_LP_LB, GRID_SIZE_LP_LB, col_longitude(perturbed_indices), col_latitude(perturbed_indices), l_p);
             % Then calculate the perturbation matrix using "perturbation_cal_lp"
             [z_bound, loss_bound(epsilon_idx, test_idx)] = perturbation_cal_lp(grid_utility_loss, grid_distances, grid_prior, EPSILON); 
 
 
             %% LP (Compared method) ---------------------------------------------------
             tic 
-            
+
             % First calculate the utiltiy loss matrix and distance matrix
             % between grid cells
-            [grid_utility_loss, grid_distances, grid_prior, ~, ~] = partition_grid(selected_longitudes, selected_latitudes, loss_matrix_selected, prior, GRID_SIZE_LP, GRID_SIZE_LP, col_longitude(perturbed_indices), col_latitude(perturbed_indices), l_p); 
-            
+            if epsilon_idx >= 3 
+                GRID_SIZE_LP_INST = GRID_SIZE_LP;  % This is an adjustment of LP since when epsilon is small, its time complexity is too high. 
+            else 
+                GRID_SIZE_LP_INST = 12; 
+            end
+            [grid_utility_loss, grid_distances, grid_prior, ~, ~] = partition_grid(selected_longitudes, selected_latitudes, loss_matrix_selected, prior, GRID_SIZE_LP_INST, GRID_SIZE_LP_INST, col_longitude(perturbed_indices), col_latitude(perturbed_indices), l_p); 
+
             % Then calculate the perturbation matrix using "perturbation_cal_lp"
             [z_lp, loss_lp(epsilon_idx, test_idx)] = perturbation_cal_lp(grid_utility_loss, grid_distances, grid_prior, EPSILON); 
-            
+
             % Convert the perturbation matrix for grid celss to the matrix
             % for fine grained locations
-            z_lp_fine = convert_grid_to_fine_perturbation(z_lp, col_longitude, col_latitude, GRID_SIZE_LP, GRID_SIZE_LP); 
+            z_lp_fine = convert_grid_to_fine_perturbation(z_lp, col_longitude, col_latitude, GRID_SIZE_LP_INST, GRID_SIZE_LP_INST); 
             time_lp(epsilon_idx, test_idx) = toc; 
+
 
             % Calculate the mDP violation ratio
             [violation_lp(epsilon_idx, test_idx), ppr_lp] = compute_mDP_violation(z_lp_fine(samples_viocheck,:), euclidean_distance_matrix_viocheck, EPSILON); 
@@ -206,8 +212,7 @@ for city_idx = 1:length(city_list)
 
             % Calculate the mDP violation ratio
             [violation_aipo(epsilon_idx, test_idx), ppr_aipo] = compute_mDP_violation(z_opt_aipo(samples_viocheck,:), euclidean_distance_matrix_viocheck, EPSILON);
-
-            [test_idx, epsilon_idx]
+            fprintf('Current progress: Test index is %d; epsilon value = %f km^-1 ...\n', test_idx, epsilon_idx*0.2);
 
         end
     end
