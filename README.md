@@ -16,9 +16,9 @@ AIPO artifact/
 * `main_granularity_appendix.m`: Evaluates the effect of grid granularity (Figure 14).  
 * `main_ablation_budget_appendix.m`: Studies the impact of privacy-budget allocation strategies, reproducing Table 7 and Figures 11–13.  
 * `parameters.m`: Specifies the parameter settings used in the experiments.  
-* `functions/`: Folder containing helper and core function implementations.  
-* `datasets/`: Folder containing the road-map datasets.  
-* `intermediate/`: Folder containing intermediate results (utility loss matrices) that are expensive to recompute.
+* `functions/`: This directory contains the optimization, interpolation, and evaluation routines that implement the AIPO mechanism and baseline methods (exponential mechanism, Laplace, TEM, COPT, LP, etc.). This corresponds to our Open-Science commitment to release the full implementation of our proposed mechanism and all baselines. 
+* `datasets/`: This directory contains the processed OpenStreetMap road-network data (nodes and edges) for Rome, London, and New York City used in all experiments, matching our commitment to release the public, non-PII datasets underlying the evaluation.
+* `intermediate/`: This directory caches intermediate results (utility loss matrices) to avoid expensive recomputation
 * `results/`:  Forder containing the experimental results. 
 
 
@@ -129,6 +129,7 @@ An example table produced by running **`main_2norm.m`** is shown below, which su
 | COPT   | 157.373±0.000 | 157.770±0.000 | 170.102±0.000 | 157.598±0.000 | 159.141±0.000 | 164.475±0.000 | 158.304±0.000 | 178.042±0.000 |
 | LP     | 266.852±0.000 | 53.865±0.000  | 889.372±0.000 | 266.866±0.000 | 253.014±0.000 | 176.692±0.000 | 185.082±0.000 | 154.150±0.000 |
 | AIPO*  | 18.083±0.000  | 18.153±0.000  | 18.337±0.000  | 15.869±0.000  | 15.817±0.000  | 15.718±0.000  | 14.780±0.000  | 16.750±0.000  |
+
 
 
 
