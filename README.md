@@ -20,10 +20,10 @@ AIPO artifact/
 * `datasets/`: Folder containing the road-map datasets.  
 * `intermediate/`: Folder containing intermediate results (utility loss matrices) that are expensive to recompute.
 * `results/`:  
-  * ./results/1norm_appendix/: Output of main_1norm.m, including utility loss, mDP violation ratio, PPR, and runtime of all compared methods across the three datasets.
-  * ./results/2norm/: Output of main_2norm.m, including utility loss, mDP violation ratio, PPR, and runtime of all compared methods across the three datasets.
-  * ./results/granularity_appendix/: Output of main_granularity.m, including utility loss, runtime, and the number of anchors used in AIPO.
-  * ./results/ablation_budget_appendix/: Output of main_ablation_budget_appendix.m, including the utility loss of AIPO with and without privacy budget optimization.
+  * `./results/1norm_appendix/`: Output of `main_1norm.m`, including utility loss, mDP violation ratio, PPR, and runtime of all compared methods across the three datasets.
+  * `./results/2norm/`: Output of `main_2norm.m`, including utility loss, mDP violation ratio, PPR, and runtime of all compared methods across the three datasets.
+  * `./results/granularity_appendix/`: Output of `main_granularity.m`, including utility loss, runtime, and the number of anchors used in AIPO.
+  * `./results/ablation_budget_appendix/`: Output of `main_ablation_budget_appendix.m`, including the utility loss of AIPO with and without privacy budget optimization.
 
 ### Security/Privacy Issues and Ethical Concerns
 There are no security or ethical concerns.
@@ -147,6 +147,7 @@ An example table produced by running **`main_2norm.m`** is shown below, which su
 | COPT   | 157.373±0.000 | 157.770±0.000 | 170.102±0.000 | 157.598±0.000 | 159.141±0.000 | 164.475±0.000 | 158.304±0.000 | 178.042±0.000 |
 | LP     | 266.852±0.000 | 53.865±0.000  | 889.372±0.000 | 266.866±0.000 | 253.014±0.000 | 176.692±0.000 | 185.082±0.000 | 154.150±0.000 |
 | AIPO*  | 18.083±0.000  | 18.153±0.000  | 18.337±0.000  | 15.869±0.000  | 15.817±0.000  | 15.718±0.000  | 14.780±0.000  | 16.750±0.000  |
+
 
 
 
