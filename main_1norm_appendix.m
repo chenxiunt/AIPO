@@ -9,9 +9,9 @@ fprintf('------------------- Environment settings --------------------- \n\n');
 parameters; 
 city_list = {'rome', 'nyc', 'london'};
 
-l_p = 2; % l_2 norm
+l_p = 1; % l_1 norm
 
-for city_idx = 1:3 % length(city_list)
+for city_idx = 1:length(city_list)
     city = city_list{city_idx};
     fprintf('\n------------- Processing city: %s -------------\n', city);
 
@@ -61,12 +61,12 @@ for city_idx = 1:3 % length(city_list)
     load(path_file);
 
     % Initialize metrics
-    time_em = 0; time_laplace = 0; time_tem = 0; time_rmp =0;
-    time_copt = 0; time_lp = 0; time_aipo = 0; time_aipor = 0; time_bound = 0;
-    loss_em = 0; loss_laplace = 0; loss_tem = 0; loss_rmp =0;
-    loss_copt = 0; loss_lp = 0; loss_aipo = 0; loss_aipor = 0; loss_bound = 0;
-    violation_em = 0; violation_laplace = 0; violation_tem = 0; violation_rmp = 0; 
-    violation_copt = 0; violation_lp = 0; violation_aipo = 0; violation_aipor = 0; violation_bound = 0;
+    time_em = 0; time_laplace = 0; time_tem = 0;
+    time_copt = 0; time_lp = 0; time_aipo = 0; time_bound = 0;
+    loss_em = 0; loss_laplace = 0; loss_tem = 0;
+    loss_copt = 0; loss_lp = 0; loss_aipo = 0; loss_bound = 0;
+    violation_em = 0; violation_laplace = 0; violation_tem = 0;
+    violation_copt = 0; violation_lp = 0; violation_aipo = 0; violation_bound = 0;
     
     prior = ones(1, NR_REAL_LOC)/NR_REAL_LOC;                               % We consider a case where vehicles are evenly distributed. 
 
@@ -126,16 +126,17 @@ for city_idx = 1:3 % length(city_list)
             z_lp_fine = convert_grid_to_fine_perturbation(z_lp, col_longitude, col_latitude, GRID_SIZE_LP_INST, GRID_SIZE_LP_INST); 
             time_lp(epsilon_idx, test_idx) = toc; 
 
+
             % Calculate the mDP violation ratio
             [violation_lp(epsilon_idx, test_idx), ppr_lp] = compute_mDP_violation(z_lp_fine(samples_viocheck,:), euclidean_distance_matrix_viocheck, EPSILON); 
 
             %% COPT (Compared method) ---------------------------------------------------
             tic
-
+            
             % First calculate the utiltiy loss matrix and distance matrix
             % between grid cells
             [grid_utility_loss, grid_distances, grid_prior, neighbor_pairs, distances_to_perturbed] = partition_grid(selected_longitudes, selected_latitudes, loss_matrix_selected, prior, GRID_SIZE_COPT, GRID_SIZE_COPT, col_longitude(perturbed_indices), col_latitude(perturbed_indices), l_p); 
-
+            
             % Then calculate the perturbation matrix using "perturbation_cal_lp"
             [z_copt, M, loss_copt(epsilon_idx, test_idx)] = perturbation_cal_copt(distances_to_perturbed, grid_distances, grid_utility_loss, grid_prior, EPSILON, LAMBDA, R);
             time_copt(epsilon_idx, test_idx) = toc; 
@@ -146,7 +147,7 @@ for city_idx = 1:3 % length(city_list)
 
             % Calculate the mDP violation ratio
             [violation_copt(epsilon_idx, test_idx), ppr_copt] = compute_mDP_violation(z_copt_fine(samples_viocheck,:), euclidean_distance_matrix_viocheck, EPSILON); 
-
+        
             %% EM (Compared method) ---------------------------
             tic
 
@@ -166,7 +167,7 @@ for city_idx = 1:3 % length(city_list)
 
             % Calculate the mDP violation ratio
             [violation_laplace(epsilon_idx, test_idx), ppr_laplace] = compute_mDP_violation(z_laplace(samples_viocheck,:), euclidean_distance_matrix_viocheck, EPSILON);
-
+    
             %% TEM (Compared method) ---------------------------
             tic
 
@@ -193,8 +194,8 @@ for city_idx = 1:3 % length(city_list)
                 epsilon_2 = EPSILON*sqrt(1-(epsilon_idx_1/NR_EPSILON_INTERVAL)^2);           % Given epsilon 1, calculate the corresponding epsilon_2
 
                 % Calculate the perturbation matrix for anchor records using "perturbation_cal_apo"
-                [z_anchor_instance, loss_aipo_instance_approx(epsilon_idx, test_idx, epsilon_idx_1)] = perturbation_cal_apo(c_approx, corner_weights_selected, distanceMatrix, neighborMatrix, epsilon_1/2, epsilon_2/2); 
-                loss_aipo_instance_approx(epsilon_idx, test_idx, epsilon_idx_1) = loss_aipo_instance_approx(epsilon_idx, test_idx, epsilon_idx_1)/NR_REAL_LOC;
+                z_anchor_instance = perturbation_cal_apo(c_approx, corner_weights_selected, distanceMatrix, neighborMatrix, epsilon_1/2, epsilon_2/2); 
+                
                 % Use log convex interporlation function to determine the
                 % perturbation matrix for fine-grained locations 
                 [z_aipo_instance, loss_aipo_instance(epsilon_idx, test_idx, epsilon_idx_1)] = logconv_interp(z_anchor_instance, corner_weights_selected, loss_matrix_selected);
@@ -211,52 +212,36 @@ for city_idx = 1:3 % length(city_list)
 
             % Calculate the mDP violation ratio
             [violation_aipo(epsilon_idx, test_idx), ppr_aipo] = compute_mDP_violation(z_opt_aipo(samples_viocheck,:), euclidean_distance_matrix_viocheck, EPSILON);
-
-
-            %%  INT-R (Our method but a relaxed version)
-            tic
-            % Calculate the perturbation matrix for anchor records using "perturbation_cal_apo"
-            z_anchor_opt = perturbation_cal_apo(c_approx, corner_weights_selected, distanceMatrix, neighborMatrix, EPSILON, EPSILON); 
-
-            % Use log convex interporlation function to determine the
-            % perturbation matrix for fine-grained locations 
-            [z_opt_aipor, loss_aipor(epsilon_idx, test_idx)] = logconv_interp(z_anchor_opt, corner_weights_selected, loss_matrix_selected);
-            time_aipor(epsilon_idx, test_idx) = toc;
-            [violation_aipor(epsilon_idx, test_idx), ppr_aipor] = compute_mDP_violation(z_opt_aipor(samples_viocheck,:), euclidean_distance_matrix_viocheck, EPSILON);
-
             fprintf('Current progress: Test index is %d; epsilon value = %f km^-1 ...\n', test_idx, epsilon_idx*0.2);
 
         end
     end
 
     %% Save results with city-specific paths
-    save(sprintf("./results/2norm/time/%s/time_em.mat", city), "time_em"); 
-    save(sprintf("./results/2norm/time/%s/time_laplace.mat", city), "time_laplace"); 
-    save(sprintf("./results/2norm/time/%s/time_tem.mat", city), "time_tem"); 
-    save(sprintf("./results/2norm/time/%s/time_copt.mat", city), "time_copt"); 
-    save(sprintf("./results/2norm/time/%s/time_lp.mat", city), "time_lp"); 
-    save(sprintf("./results/2norm/time/%s/time_aipo.mat", city), "time_aipo"); 
-    save(sprintf("./results/2norm/time/%s/time_aipor.mat", city), "time_aipor"); 
-    save(sprintf("./results/2norm/time/%s/time_rmp.mat", city), "time_rmp"); 
+    save(sprintf("./results/1norm/time/%s/time_em.mat", city), "time_em"); 
+    save(sprintf("./results/1norm/time/%s/time_laplace.mat", city), "time_laplace"); 
+    save(sprintf("./results/1norm/time/%s/time_tem.mat", city), "time_tem"); 
+    save(sprintf("./results/1norm/time/%s/time_copt.mat", city), "time_copt"); 
+    save(sprintf("./results/1norm/time/%s/time_lp.mat", city), "time_lp"); 
+    save(sprintf("./results/1norm/time/%s/time_aipo.mat", city), "time_aipo"); 
+    save(sprintf("./results/1norm/time/%s/time_rmp.mat", city), "time_rmp"); 
 
-    save(sprintf("./results/2norm/cost/%s/loss_em.mat", city), "loss_em"); 
-    save(sprintf("./results/2norm/cost/%s/loss_laplace.mat", city), "loss_laplace"); 
-    save(sprintf("./results/2norm/cost/%s/loss_tem.mat", city), "loss_tem"); 
-    save(sprintf("./results/2norm/cost/%s/loss_copt.mat", city), "loss_copt"); 
-    save(sprintf("./results/2norm/cost/%s/loss_lp.mat", city), "loss_lp"); 
-    save(sprintf("./results/2norm/cost/%s/loss_aipo.mat", city), "loss_aipo"); 
-    save(sprintf("./results/2norm/cost/%s/loss_aipor.mat", city), "loss_aipor"); 
-    save(sprintf("./results/2norm/cost/%s/loss_bound.mat", city), "loss_bound"); 
-    save(sprintf("./results/2norm/cost/%s/loss_rmp.mat", city), "loss_rmp"); 
+    save(sprintf("./results/1norm/cost/%s/loss_em.mat", city), "loss_em"); 
+    save(sprintf("./results/1norm/cost/%s/loss_laplace.mat", city), "loss_laplace"); 
+    save(sprintf("./results/1norm/cost/%s/loss_tem.mat", city), "loss_tem"); 
+    save(sprintf("./results/1norm/cost/%s/loss_copt.mat", city), "loss_copt"); 
+    save(sprintf("./results/1norm/cost/%s/loss_lp.mat", city), "loss_lp"); 
+    save(sprintf("./results/1norm/cost/%s/loss_aipo.mat", city), "loss_aipo"); 
+    save(sprintf("./results/1norm/cost/%s/loss_bound.mat", city), "loss_bound"); 
+    save(sprintf("./results/1norm/cost/%s/loss_rmp.mat", city), "loss_rmp"); 
 
-    save(sprintf("./results/2norm/violation/%s/violation_em.mat", city), "violation_em"); 
-    save(sprintf("./results/2norm/violation/%s/violation_laplace.mat", city), "violation_laplace"); 
-    save(sprintf("./results/2norm/violation/%s/violation_tem.mat", city), "violation_tem"); 
-    save(sprintf("./results/2norm/violation/%s/violation_copt.mat", city), "violation_copt"); 
-    save(sprintf("./results/2norm/violation/%s/violation_lp.mat", city), "violation_lp"); 
-    save(sprintf("./results/2norm/violation/%s/violation_aipo.mat", city), "violation_aipo"); 
-    save(sprintf("./results/2norm/violation/%s/violation_aipor.mat", city), "violation_aipor"); 
-    save(sprintf("./results/2norm/violation/%s/violation_rmp.mat", city), "violation_rmp"); 
+    save(sprintf("./results/1norm/violation/%s/violation_em.mat", city), "violation_em"); 
+    save(sprintf("./results/1norm/violation/%s/violation_laplace.mat", city), "violation_laplace"); 
+    save(sprintf("./results/1norm/violation/%s/violation_tem.mat", city), "violation_tem"); 
+    save(sprintf("./results/1norm/violation/%s/violation_copt.mat", city), "violation_copt"); 
+    save(sprintf("./results/1norm/violation/%s/violation_lp.mat", city), "violation_lp"); 
+    save(sprintf("./results/1norm/violation/%s/violation_aipo.mat", city), "violation_aipo"); 
+    save(sprintf("./results/1norm/violation/%s/violation_rmp.mat", city), "violation_rmp"); 
 
     save(sprintf("./results/1norm/ppr/%s/ppr_em.mat", city), "ppr_em"); 
     save(sprintf("./results/1norm/ppr/%s/ppr_laplace.mat", city), "ppr_laplace"); 
@@ -266,19 +251,4 @@ for city_idx = 1:3 % length(city_list)
     save(sprintf("./results/1norm/ppr/%s/ppr_aipo.mat", city), "ppr_aipo"); 
     save(sprintf("./results/1norm/ppr/%s/ppr_rmp.mat", city), "ppr_rmp");
 
-    %% Print the results 
-    
-    print_loss_table(city,   ...
-    loss_em/1000, loss_laplace/1000, loss_tem/1000, ...
-    loss_rmp/1000, loss_copt/1000, loss_lp/1000, ...
-    loss_aipor/1000, loss_bound/1000, loss_aipo/1000);
-
-    print_violation_table(city, ...
-    violation_em*100, violation_laplace*100, violation_tem*100, ...
-    violation_rmp*100, violation_copt*100, violation_lp*100, ...
-    violation_aipor*100, violation_aipo*100);
-
-    print_time_table(city, ...
-    time_copt, time_lp, time_aipo);
 end
-
